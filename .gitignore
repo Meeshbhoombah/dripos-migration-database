@@ -1,3 +1,9 @@
+# Vim
+*.sw*
+
+# Environment File
+.env
+
 # Logs
 logs
 *.log
