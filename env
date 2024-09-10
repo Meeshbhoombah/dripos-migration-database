@@ -1,0 +1,4 @@
+STRIPE_API_KEY=
+REDIS_URL=redis://localhost:6379
+PORT=5000
+
