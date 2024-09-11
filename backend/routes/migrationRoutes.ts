@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { migrateCustomerData } from '../constrollers/migrationController';
+import { migrateCustomerData } from '../controllers/migrationController';
 
 
 const router = Router();
