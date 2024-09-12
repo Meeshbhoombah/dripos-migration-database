@@ -12,7 +12,7 @@ const App: React.FC = () => {
         <Router>
             <div className="App">
                 <Routes>
-                    <Route exact path="/" component={Migration} />
+                    <Route path="/" element={<Migration />} />
                 </Routes>
             </div>
         </Router>
