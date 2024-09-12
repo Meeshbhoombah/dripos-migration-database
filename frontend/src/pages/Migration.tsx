@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 
 const Migration = () => {
     const [formData, setFormData] = useState({ name: '', email: '', stripeId: '' });
