@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 
 const Migration = () => {
     const [formData, setFormData] = useState({ name: '', email: '', stripeId: '' });
     const [response, setResponse] = useState(null);
    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ....formData, [e.target.name]: e.target.value})
+        setFormData({ ...formData, [e.target.name]: e.target.value})
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
         try {
-            const res = await.Axios.post('/api/migrate', formData);
+            const res = await axios.post('/api/migrate', formData);
             setResponse(res.data);
         } catch (err) {
             console.error('Migration error:', err);
@@ -36,4 +36,6 @@ const Migration = () => {
     ) 
 };
 
+
+export default Migration;
 
