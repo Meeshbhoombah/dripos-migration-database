@@ -12,7 +12,7 @@ interface ICustomer extends Document {
 const CustomerSchema: Schema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
-    stripeId: { type: String, required: true }
+    stripeId: { type: String, required: true },
     transactions: [{type: String}],
 });
 

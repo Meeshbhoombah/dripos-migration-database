@@ -15,7 +15,7 @@ export const setCache = (key: string, value: any) => {
 
 export const getCache = (key: string): Promise<any> => {
     return new Promise((resolve, reject) => {
-        client.get(key, (err, data))  => {
+        client.get(key, (err, data) => {
             if (err) reject(err);
             resolve(JSON.parse(data as string));
         });
