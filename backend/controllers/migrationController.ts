@@ -24,6 +24,7 @@ export const migrateCustomerData = async (req: Request, res: Response) => {
 
         await customer.save();
 
+        // TODO: update to use promise
         setCache(stripeId, customer);
         
         res.status(201).json(customer);

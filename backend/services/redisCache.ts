@@ -5,11 +5,19 @@ const client = redis.createClient();
 
 client.on('error', (err) => {
     console.log('Redis Error: ', err);
-})
+});
 
 
-export const setCache = (key: string, value: any) => {
-    client.setex(key, 3600, JSON.stringify(value));
+export const setCache = (key: string, value: any): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        client.set(key, value, 'EX', 3600, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
 }
 
 
