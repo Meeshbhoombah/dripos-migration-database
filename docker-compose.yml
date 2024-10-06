@@ -10,6 +10,7 @@ services:
       - ./backend/.env    # Use environment variables from the .env file
     depends_on:
       - redis
+      - mongo
     volumes:
       - ./backend:/app
     networks:
