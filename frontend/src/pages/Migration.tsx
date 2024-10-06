@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const Migration = () => {
     const [formData, setFormData] = useState({ name: '', email: '', stripeId: '' });
@@ -13,7 +13,7 @@ const Migration = () => {
         e.preventDefault();
         
         try {
-            const res = await axios.post('/api/migrate', formData);
+            const res = await api.post('/api/migrate', formData);
             setResponse(res.data);
         } catch (err) {
             console.error('Migration error:', err);

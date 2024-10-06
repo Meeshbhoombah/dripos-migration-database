@@ -1,0 +1,4 @@
+# URL pointing to the backend service in Docker
+# Use localhost when application is local
+REACT_APP_API_URL=http://localhost:5000
+
