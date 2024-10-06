@@ -33,6 +33,16 @@ services:
     networks:
       - app-network
 
+  mongo:                        # MongoDB service
+    container_name: mongo_service
+    image: "mongo:latest"
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db   # Persist MongoDB data locally
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
