@@ -1,4 +1,4 @@
-import * as redis from 'redis';
+import redis from 'redis';
 
 const client = redis.createClient();
 
@@ -9,17 +9,17 @@ client.on('error', (err) => {
 
 
 export const setCache = (key: string, value: any) => {
-    // https://stackoverflow.com/questions/15861424/node-redis-set-with-ex-and-nx
-    // set with an expiration time of 1 hour (translated to seconds)
-    client.set(key, value, {
-        EX: 3600 
-    });
+    client.setex(key, 3600, JSON.stringify(value));
 }
 
 
 export const getCache = (key: string): Promise<any> => {
     return new Promise((resolve, reject) => {
-        client.get(key);
+        client.get(key, (err, data) => {
+            if (err) reject(err);
+            resolve(JSON.parse(data as string));
+        });
     });
 };
+
 
