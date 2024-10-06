@@ -1,5 +1,7 @@
 STRIPE_SECRET_KEY=your-stripe-secret-key
 
+# https://stackoverflow.com/questions/71921208/cant-connect-to-mongodb-in-docker-container
+# Use `localhost` in MONGO_URI when local, and container name (e.g: `mongo`) for Docker
 MONGO_URI=mongodb://localhost:27017/dripos_migration
 REDIS_PORT=6379
 
