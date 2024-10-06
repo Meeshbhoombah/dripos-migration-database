@@ -1,0 +1,39 @@
+services:
+  backend:
+    container_name: backend_service
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env    # Use environment variables from the .env file
+    depends_on:
+      - redis
+    volumes:
+      - ./backend:/app
+    networks:
+      - app-network
+
+  frontend:
+    container_name: frontend_service
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+  redis:
+    container_name: redis_service
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
