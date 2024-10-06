@@ -15,7 +15,9 @@ export const setCache = (key: string, value: any) => {
 }
 
 
-export const getCache = (key: string): Promise<any> => {
+export const getCache = async (key: string): Promise<any> => {
+    await client.connect();
+
     return new Promise((resolve, reject) => {
         client.get(key);
     });
