@@ -1,0 +1,6 @@
+STRIPE_SECRET_KEY=your-stripe-secret-key
+
+MONGO_URI=mongodb://localhost:27017/dripos_migration
+REDIS_PORT=6379
+
+PORT=5000
