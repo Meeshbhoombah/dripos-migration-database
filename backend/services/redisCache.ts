@@ -8,7 +8,7 @@ client.on('error', (err) => {
 });
 
 
-export const setCache = async (key: string, value: any) => {
+export const setCache = (key: string, value: any) => {
     client.set(key, JSON.stringify(value), {
         EX: 3600 
     });
