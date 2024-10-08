@@ -8,14 +8,12 @@ export const migrateCustomerData = async (req: Request, res: Response) => {
     const { stripeId } = req.body;
 
     try {
-        /*
         const cachedData = await getCache(stripeId);
 
         if (cachedData) {
             return res.status(200).json(cachedData);
         }
-        */
-       
+
         const payments = await fetchCustomerPayments(stripeId);
         const customer = new Customer({
             name: req.body.name,
@@ -26,13 +24,11 @@ export const migrateCustomerData = async (req: Request, res: Response) => {
 
         await customer.save();
 
-        /*
-        // TODO: update to use promise
         setCache(stripeId, customer);
-        */
         
         res.status(201).json(customer);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: 'Migration Failed'});
     }
 };
