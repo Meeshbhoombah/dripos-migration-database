@@ -1,6 +1,6 @@
 # Dripos Migration Database
 
-A data migration application that let's users move Stripe customers into 
+A data migration application that enables users to move Stripe customers into 
 MongoDB through a interface purpose-built for simple migrations.
 
 ## Features
