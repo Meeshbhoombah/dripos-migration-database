@@ -6,7 +6,7 @@ interface ICustomer extends Document {
     email: string;
     stripeId: string;
     transactions: string[];
-    // invoices: string[];
+    invoices: string[];
 }
 
 
@@ -15,7 +15,7 @@ const CustomerSchema: Schema = new Schema({
     email: { type: String, required: true },
     stripeId: { type: String, required: true },
     transactions: [{type: String}],
-    // invoices: [{type: String}],
+    invoices: [{type: String}]
 });
 
 
