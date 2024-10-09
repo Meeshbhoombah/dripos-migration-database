@@ -15,11 +15,14 @@ export const migrateCustomerData = async (req: Request, res: Response) => {
         }
 
         const payments = await fetchCustomerPayments(stripeId);
+        // const invoices = await fetchCustomerInvoices(stripeId);
+
         const customer = new Customer({
             name: req.body.name,
             email: req.body.email,
             stripeId,
-            transactions: payments.map((p: any) => p.id),
+            transactions: payments.map((p) => p.id),
+            // invoices: invoices.map((p: any) => )
         });
 
         await customer.save();
@@ -31,5 +34,10 @@ export const migrateCustomerData = async (req: Request, res: Response) => {
         console.log(error);
         res.status(500).json({ error: 'Migration Failed'});
     }
+}
+
+/*
+export const migrateInvoiceData = async (req: Request, res: Response) => {
 };
+*/
 
