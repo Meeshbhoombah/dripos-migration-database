@@ -1,5 +1,4 @@
-# dmd
-Dripos Migration Database
+# Dripos Migration Database
 
 A data migration application that let's users move Stripe customers into 
 MongoDB through a interface purpose-built for simple migrations.
