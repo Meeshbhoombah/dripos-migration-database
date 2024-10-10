@@ -22,3 +22,7 @@ export const getCache = async (key: string): Promise<any> => {
 };
 
 
+export const flushCache = () => {
+    client.flushAll();
+}
+
