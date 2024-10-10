@@ -20,6 +20,13 @@ export const fetchCustomerPayments = async (stripeId: string) => {
     }
 };
 
+// interface customerInvoicesParams extends PaginationParams, InvoiceListParams {}
+
+interface stripeApiRequest {
+    customer: string; 
+    limit: number;
+    starting_after?: number;
+}
 
 export const fetchCustomerInvoices = async (stripeId: string) => {
     try {
@@ -27,13 +34,6 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
 
         let hasMore = true;
         let startingAfter = null;
-
-        /*
-        interface stripeApiRequest = {
-            customer: string; 
-            limit: number;
-            starting_after?: number;
-        }
 
         let request: stripeApiRequest = {
             customer: stripeId,
@@ -43,13 +43,15 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
         while (hasMore) {
             let response: any = await stripe.invoices.list(request);
 
-            hasMore = response.has_more
+            invoiceIds = response.data.map((invoice: any) => invoice.id);
+
+            hasMore = response.has_more;
             if (hasMore) {
                 request.starting_after = response.data[response.data.length - 1].id; 
             }
         }
-        */
 
+        /*
         while (hasMore) {
             const response: any = await stripe.invoices.list({
                 customer: stripeId,
@@ -64,6 +66,7 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
                 startingAfter = response.data[response.data.length - 1].id; 
             }
         }
+        */
 
         return invoiceIds;
     } catch (error) {
