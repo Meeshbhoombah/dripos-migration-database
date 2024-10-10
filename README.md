@@ -29,7 +29,7 @@ Written in Typescript
 - Node.js
 - Express
 - Mongoose
-- Stripe API (2024-06-20)
+- [Stripe API](https://github.com/stripe/stripe-node/tree/0c896edf61f1ad24627468f143b0d0d37db9e828) (2024-06-20)
 
 ### Database:
 - MongoDB
