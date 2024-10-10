@@ -72,3 +72,29 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
     }
 };
 
+// TODO: ignore first five customers sent to webhook so they can be added by 
+// hand
+// TODO: generate some payments and/or invoices above the 100s so that the
+// above functions can be tested
+
+export const generateFalseData = (customerCount: 25, withInvoices: true) => {
+    for (let i = 0; i < customerCount; i ++) {
+        let paymentMethodId = "";
+
+        // We want five customer's payment methods to be able to make sucessful
+        // payments to simulate transactions
+        if (i <= 20) {
+            paymentMethodId = generateFalsePaymentMethod();
+        } else {
+            let withSuccessfulPayments = true;
+            paymentMethodId = generateFalsePaymentMethod(withSuccessfulPayments);
+        }
+
+        generateFalseCustomer(paymentMethodId);
+
+        // TODO: ? sleep the loop for an interval so that a webhook can pickup
+        // generated customers and add it to the application -- can this occur
+        // without sleeping the loop?
+    }
+};
+
