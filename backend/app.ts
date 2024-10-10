@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 
 import migrationRoutes from './routes/migrationRoutes';
-
+// import cleanRoutes from './routes/cleanRoutes';
 
 dotenv.config();
 
@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI as string)
 
 
 app.use('/api/migrate', migrationRoutes);
+// app.use('/clean', cleaningRoutes);
 
 const PORT = process.env.PORT || 5000;
 
