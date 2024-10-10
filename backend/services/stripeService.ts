@@ -33,14 +33,6 @@ export const fetchCustomerPayments = async (stripeId: string) => {
         }
 
         return paymentIds;
-
-        /*
-        const payments = await stripe.paymentIntents.list({ 
-            customer: stripeId 
-        });
-
-        return payments.data;
-        */
     } catch (error) {
         console.error('Error fetching payments from Stripe:', error);
         throw error;
