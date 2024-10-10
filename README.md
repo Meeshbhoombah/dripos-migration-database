@@ -7,8 +7,9 @@ MongoDB through a interface purpose-built for simple migrations.
 - Stripe API Integration: version "2024-06-20"
 - Redis Cache: cached Stripe data for faster subsequent API requests
 - Mongoose Pipelining: Mongoose to manage large-scale Stripe data migration
-- React Dashboard: Role-specific dashboard to trigger and monitor migrations
+- React Dashboard: role-specific dashboard to trigger and monitor migrations
 - Docker Deployment: Dockerized services for easy deployment and scaling.
+- Cleaning: routes for purging the database and cache
 
 ### Planned
 - Generatable test data
