@@ -21,7 +21,7 @@ export const migrateCustomerData = async (req: Request, res: Response) => {
             name: req.body.name,
             email: req.body.email,
             stripeId,
-            transactions: payments.map((p) => p.id),
+            transactions: payments,
             invoices,
         });
 
