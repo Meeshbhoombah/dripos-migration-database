@@ -28,6 +28,28 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
         let hasMore = true;
         let startingAfter = null;
 
+        /*
+        interface stripeApiRequest = {
+            customer: string; 
+            limit: number;
+            starting_after?: number;
+        }
+
+        let request: stripeApiRequest = {
+            customer: stripeId,
+            limit: 100 
+        }
+
+        while (hasMore) {
+            let response: any = await stripe.invoices.list(request);
+
+            hasMore = response.has_more
+            if (hasMore) {
+                request.starting_after = response.data[response.data.length - 1].id; 
+            }
+        }
+        */
+
         while (hasMore) {
             const response: any = await stripe.invoices.list({
                 customer: stripeId,

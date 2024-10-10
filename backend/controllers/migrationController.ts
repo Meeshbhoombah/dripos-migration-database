@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Customer from '../models/customerModel';
-import { fetchCustomerPayments } from '../services/stripeService';
+import { fetchCustomerPayments, fetchCustomerInvoices } from '../services/stripeService';
 import { setCache, getCache } from '../services/redisCache';
 
 
@@ -15,14 +15,14 @@ export const migrateCustomerData = async (req: Request, res: Response) => {
         }
 
         const payments = await fetchCustomerPayments(stripeId);
-        // const invoices = await fetchCustomerInvoices(stripeId);
+        const invoices = await fetchCustomerInvoices(stripeId);
 
         const customer = new Customer({
             name: req.body.name,
             email: req.body.email,
             stripeId,
             transactions: payments.map((p) => p.id),
-            // invoices,
+            invoices,
         });
 
         await customer.save();
