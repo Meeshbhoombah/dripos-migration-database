@@ -77,24 +77,18 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
 };
 
 
-// Creating payment methods that produce successful transactions require using
-// a pre-defined card number as specified by Stripe, for this application we
-// are only using Visa cards, thus we should use Stripe's provided testable 
-// card number
 // https://docs.stripe.com/testing?testing-method=card-numbers#testing-interactively
 const STRIPE_TEST_VISA_CARD_NUMBER = "4242 4242 4242 4242"
 
-const generateFalsePaymentMethod = (withSuccessfulPayments?: boolean) => {
-    // We want all card numbers to be Visa cards, simply for the sake of 
-    // consistency
-    let number = faker.finance.credCardNumber({ issuer: 'visa '});
-
-    if (withSuccessfulPayments) {
-        number = STRIPE_TEST_VISA_CARD_NUMBER;
-    }
-
-
-}
+// 01 == Jan, 02 == Feb, 03 == Mar, etc.
+const MONTHS = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+];
 
 
 // TODO: ignore first five customers sent to webhook so they can be added by 
@@ -103,15 +97,14 @@ const generateFalsePaymentMethod = (withSuccessfulPayments?: boolean) => {
 // above functions can be tested
 export const generateFalseData = (customerCount: 25, withInvoices: true) => {
     for (let i = 0; i < customerCount; i++) {
-        let paymentMethodId = "";
+        let cardToken = "";
 
         if (i <= 20) {
-            paymentMethodId = generateFalsePaymentMethod();
+            cardToken = generateFalseCard();
         } else {
-            // We want five customer's payment methods to be able to make 
-            // sucessful payments to simulate transactions
+            // We want five customers' cards making successful payments
             let withSuccessfulPayments = true;
-            paymentMethodId = generateFalsePaymentMethod(withSuccessfulPayments);
+            cardToken = generateFalseCard(withSuccessfulPayments);
         }
 
         generateFalseCustomer(paymentMethodId);
