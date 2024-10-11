@@ -1,10 +1,14 @@
-import Stripe from 'stripe';
 import dotenv from 'dotenv';
+import Stripe from 'stripe';
+import { faker } from '@faker-js/faker';
 
 dotenv.config();
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {apiVersion: '2024-06-20'});
+
+
+faker.seed(420);
 
 
 interface customerPaymentsParams extends Stripe.PaginationParams, Stripe.PaymentIntentListParams {}
@@ -72,20 +76,40 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
     }
 };
 
+
+// Creating payment methods that produce successful transactions require using
+// a pre-defined card number as specified by Stripe, for this application we
+// are only using Visa cards, thus we should use Stripe's provided testable 
+// card number
+// https://docs.stripe.com/testing?testing-method=card-numbers#testing-interactively
+const STRIPE_TEST_VISA_CARD_NUMBER = "4242 4242 4242 4242"
+
+const generateFalsePaymentMethod = (withSuccessfulPayments?: boolean) => {
+    // We want all card numbers to be Visa cards, simply for the sake of 
+    // consistency
+    let number = faker.finance.credCardNumber({ issuer: 'visa '});
+
+    if (withSuccessfulPayments) {
+        number = STRIPE_TEST_VISA_CARD_NUMBER;
+    }
+
+
+}
+
+
 // TODO: ignore first five customers sent to webhook so they can be added by 
 // hand
 // TODO: generate some payments and/or invoices above the 100s so that the
 // above functions can be tested
-
 export const generateFalseData = (customerCount: 25, withInvoices: true) => {
-    for (let i = 0; i < customerCount; i ++) {
+    for (let i = 0; i < customerCount; i++) {
         let paymentMethodId = "";
 
-        // We want five customer's payment methods to be able to make sucessful
-        // payments to simulate transactions
         if (i <= 20) {
             paymentMethodId = generateFalsePaymentMethod();
         } else {
+            // We want five customer's payment methods to be able to make 
+            // sucessful payments to simulate transactions
             let withSuccessfulPayments = true;
             paymentMethodId = generateFalsePaymentMethod(withSuccessfulPayments);
         }
