@@ -30,15 +30,18 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
 process.stdin.setEncoding("utf8");
-
 process.stdin.on("readable", () => {
     let chunk = process.stdin.read() as string;
-
     let lines = chunk.split(os.EOL);
     let command = lines[0];
+    let commandParts = command.split("");
+    let commandName = commandParts[0];
+    let commandParams = commandParts.slice(1);
 
-    console.log(command);
-
-    process.stdin.resume();
+    switch (commandName) {
+        default: {
+            console.log("Command not found");
+        }
+    }
 });
 
