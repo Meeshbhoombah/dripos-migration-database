@@ -81,16 +81,21 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
 interface customerCreateParams extends Stripe.CustomerCreateParams {}
 
 const createCustomer = async () => {
-    let name = faker.person.fullName();
-    let [firstName, lastName] = name.split(" ");
+    // Not using`faker.person.fullName()` because it adds prefixes
+    let firstName = faker.person.firstName();
+    let lastName = faker.person.lastName();
+    
+    let email = faker.internet.email({ firstName, lastName });
+    email = email.toLowerCase();
 
     let request: customerCreateParams = {
-        name,
-        email: faker.internet.email({ firstName, lastName }),
+        name: [firstName, lastName].join(" "),
+        email,
         phone: faker.phone.number()
     }
 
     let response: any = await stripe.customers.create(request);
+    console.log(response);
 
     return response.id;
 };
@@ -109,9 +114,9 @@ const MONTHS: number = [];
 // hand
 // TODO: generate some payments and/or invoices above the 100s so that the
 // above functions can be tested
-export const generateFalseData = (customerCount: number) => {
+export const generateFalseData = async (customerCount: number) => {
     for (let i = 0; i < customerCount; i++) {
-        let stripeId = createCustomer();
+        let stripeId = await createCustomer();
         console.log(stripeId);
             
         // We want five customers' cards making successful payments

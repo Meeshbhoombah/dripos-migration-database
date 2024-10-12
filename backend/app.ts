@@ -8,6 +8,8 @@ import cors from 'cors';
 import migrationRoutes from './routes/migrationRoutes';
 import cleanRoutes from './routes/cleanRoutes';
 
+import { generateFalseData } from './services/stripeService';
+
 
 dotenv.config();
 
@@ -27,6 +29,9 @@ app.use('/clean', cleanRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+generateFalseData(1);
 
 
 process.stdin.setEncoding("utf8");
