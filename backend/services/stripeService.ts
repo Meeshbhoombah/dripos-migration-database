@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import Stripe from 'stripe';
 import { faker } from '@faker-js/faker';
 
+
 dotenv.config();
 
 
@@ -77,37 +78,51 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
 };
 
 
+interface customerCreateParams extends Stripe.CustomerCreateParams {}
+
+const createCustomer = async () => {
+    let name = faker.person.fullName();
+    let [firstName, lastName] = name.split(" ");
+
+    let request: customerCreateParams = {
+        name,
+        email: faker.internet.email({ firstName, lastName }),
+        phone: faker.phone.number()
+    }
+
+    let response: any = await stripe.customers.create(request);
+
+    return response.id;
+};
+
+
+/*
 // https://docs.stripe.com/testing?testing-method=card-numbers#testing-interactively
-const STRIPE_TEST_VISA_CARD_NUMBER = "4242 4242 4242 4242"
+const STRIPE_TEST_VISA_CARD_NUMBER = "4242 4242 4242 4242";
 
 // 01 == Jan, 02 == Feb, 03 == Mar, etc.
-const MONTHS = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-];
+const MONTHS: number = [];
+*/
 
 
 // TODO: ignore first five customers sent to webhook so they can be added by 
 // hand
 // TODO: generate some payments and/or invoices above the 100s so that the
 // above functions can be tested
-export const generateFalseData = (customerCount: 25, withInvoices: true) => {
+export const generateFalseData = (customerCount: number) => {
     for (let i = 0; i < customerCount; i++) {
-        let cardToken = "";
-
-        if (i <= 20) {
+        let stripeId = createCustomer();
+        console.log(stripeId);
+            
+        // We want five customers' cards making successful payments
+        /*
+        if (i <= customerCount - 5) {
             cardToken = generateFalseCard();
         } else {
-            // We want five customers' cards making successful payments
             let withSuccessfulPayments = true;
             cardToken = generateFalseCard(withSuccessfulPayments);
         }
-
-        generateFalseCustomer(paymentMethodId);
+        */
 
         // TODO: ? sleep the loop for an interval so that a webhook can pickup
         // generated customers and add it to the application -- can this occur
