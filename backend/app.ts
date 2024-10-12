@@ -25,7 +25,20 @@ app.use(express.json());
 app.use('/api/migrate', migrationRoutes);
 app.use('/clean', cleanRoutes);
 
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+process.stdin.setEncoding("utf8");
+
+process.stdin.on("readable", () => {
+    let chunk = process.stdin.read() as string;
+
+    let lines = chunk.split(os.EOL);
+    let command = lines[0];
+
+    console.log(command);
+
+    process.stdin.resume();
+});
 
