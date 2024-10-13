@@ -31,9 +31,10 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-const CUSTOMERS_TO_GENERATE = 1;
+// --- FALSE DATA GENERATION ---
+const CUSTOMERS = 1;
 
-generateFalseData(CUSTOMERS_TO_GENERATE);
+generateFalseData(CUSTOMERS);
 
 
 process.stdin.setEncoding("utf8");

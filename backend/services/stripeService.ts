@@ -80,7 +80,7 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
 
 interface customerCreateParams extends Stripe.CustomerCreateParams {}
 
-const createCustomer = async () => {
+const createFalseCustomer = async () => {
     // Not using`faker.person.fullName()` because it adds prefixes
     let firstName = faker.person.firstName();
     let lastName = faker.person.lastName();
@@ -88,7 +88,7 @@ const createCustomer = async () => {
     let email = faker.internet.email({ firstName, lastName });
 
     let request: customerCreateParams = {
-        name: [firstName, lastName].join(" "),
+        name: firstName + " " + lastName,
         email: email.toLowerCase(),
         phone: faker.phone.number()
     }
@@ -99,6 +99,7 @@ const createCustomer = async () => {
 };
 
 
+// https://docs.stripe.com/testing?testing-method=tokens#cards
 const TEST_CARD_TOKENS = [
     "tok_visa",
     "tok_visa_debit",
@@ -107,13 +108,30 @@ const TEST_CARD_TOKENS = [
     "tok_amex"
 ];
 
-const generateFalsePaymentMethod = async (stripeId: string) => {
-    let card = await stripe.customers.createSource(stripeId, {
+const createFalsePaymentMethod = async (stripeId: string) => {
+    let res = await stripe.customers.createSource(stripeId, {
         source: TEST_CARD_TOKENS[Math.floor(Math.random() * TEST_CARD_TOKENS.length)]
     });
 
-    console.log(card);
+    return res.id;
 };
+
+
+const createFalsePayment = async (stripeId: string, cardId: string) => {
+    const paymentIntent = await stripe.paymentIntents.create({
+        customer: stripeId,
+        amount: 2000,
+        currency: 'usd',
+        payment_method: cardId,
+        confirm: true,
+        return_url: "https://a399-73-150-135-223.ngrok-free.app",
+        automatic_payment_methods: {
+            enabled: true,
+        },
+    });
+
+    console.log(paymentIntent);
+}
 
 
 // TODO: ignore first five customers sent to webhook so they can be added by 
@@ -122,8 +140,9 @@ const generateFalsePaymentMethod = async (stripeId: string) => {
 // above functions can be tested
 export const generateFalseData = async (customerCount: number) => {
     for (let i = 0; i < customerCount; i++) {
-        let stripeId = await createCustomer();
-        await generateFalsePaymentMethod(stripeId);
+        let stripeId = await createFalseCustomer();
+        let cardId = await createFalsePaymentMethod(stripeId);
+         await createFalsePayment(stripeId, cardId);
         // TODO: ? sleep the loop for an interval so that a webhook can pickup
         // generated customers and add it to the application -- can this occur
         // without sleeping the loop?
