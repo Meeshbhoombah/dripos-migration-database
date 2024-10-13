@@ -86,28 +86,34 @@ const createCustomer = async () => {
     let lastName = faker.person.lastName();
     
     let email = faker.internet.email({ firstName, lastName });
-    email = email.toLowerCase();
 
     let request: customerCreateParams = {
         name: [firstName, lastName].join(" "),
-        email,
+        email: email.toLowerCase(),
         phone: faker.phone.number()
     }
 
     let response: any = await stripe.customers.create(request);
-    console.log(response);
 
     return response.id;
 };
 
 
-/*
-// https://docs.stripe.com/testing?testing-method=card-numbers#testing-interactively
-const STRIPE_TEST_VISA_CARD_NUMBER = "4242 4242 4242 4242";
+const TEST_CARD_TOKENS = [
+    "tok_visa",
+    "tok_visa_debit",
+    "tok_mastercard",
+    "tok_mastercard_debit",
+    "tok_amex"
+];
 
-// 01 == Jan, 02 == Feb, 03 == Mar, etc.
-const MONTHS: number = [];
-*/
+const generateFalsePaymentMethod = async (stripeId: string) => {
+    let card = await stripe.customers.createSource(stripeId, {
+        source: TEST_CARD_TOKENS[Math.floor(Math.random() * TEST_CARD_TOKENS.length)]
+    });
+
+    console.log(card);
+};
 
 
 // TODO: ignore first five customers sent to webhook so they can be added by 
@@ -117,18 +123,7 @@ const MONTHS: number = [];
 export const generateFalseData = async (customerCount: number) => {
     for (let i = 0; i < customerCount; i++) {
         let stripeId = await createCustomer();
-        console.log(stripeId);
-            
-        // We want five customers' cards making successful payments
-        /*
-        if (i <= customerCount - 5) {
-            cardToken = generateFalseCard();
-        } else {
-            let withSuccessfulPayments = true;
-            cardToken = generateFalseCard(withSuccessfulPayments);
-        }
-        */
-
+        await generateFalsePaymentMethod(stripeId);
         // TODO: ? sleep the loop for an interval so that a webhook can pickup
         // generated customers and add it to the application -- can this occur
         // without sleeping the loop?
