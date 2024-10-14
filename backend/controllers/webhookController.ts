@@ -32,8 +32,14 @@ export async function handle(req: Request, res: Response) {
                 customer = event.data.object;
             }
 
+            // Migrate the updated customer data to our Mongo DB database 
             let status = await updateCustomer(customer);
+
+            // Log migration event to our Mongo DB database, whether a success 
+            // or failure
             await createMigration(status, event);
+
+            setCache(customer.id, customer);
         },
         case 'customer.source.created': {
         
@@ -51,6 +57,9 @@ export async function handle(req: Request, res: Response) {
             console.log('Unlandled event type: ', event) 
         } 
     }
+        
+    // Return a 200 response to acknowledge receipt of the event
+    res.send(200);
     */
 }
 
