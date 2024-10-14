@@ -124,13 +124,11 @@ const createFalsePayment = async (stripeId: string, cardId: string) => {
         currency: 'usd',
         payment_method: cardId,
         confirm: true,
-        return_url: "https://a399-73-150-135-223.ngrok-free.app",
+        return_url: "https://2266-73-150-135-223.ngrok-free.app",
         automatic_payment_methods: {
             enabled: true,
         },
     });
-
-    console.log(paymentIntent);
 }
 
 
@@ -142,7 +140,7 @@ export const generateFalseData = async (customerCount: number) => {
     for (let i = 0; i < customerCount; i++) {
         let stripeId = await createFalseCustomer();
         let cardId = await createFalsePaymentMethod(stripeId);
-         await createFalsePayment(stripeId, cardId);
+        await createFalsePayment(stripeId, cardId);
         // TODO: ? sleep the loop for an interval so that a webhook can pickup
         // generated customers and add it to the application -- can this occur
         // without sleeping the loop?
