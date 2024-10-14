@@ -1,5 +1,7 @@
 import os from 'os';
 
+import pc from 'picocolors';
+
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
@@ -9,6 +11,9 @@ import migrationRoutes from './routes/migrationRoutes';
 import cleanRoutes from './routes/cleanRoutes';
 
 import { generateFalseData } from './services/stripeService';
+
+
+console.log(pc.blue(pc.bold("dripos-migration-database")));
 
 
 dotenv.config();
@@ -31,12 +36,13 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-// --- FALSE DATA GENERATION ---
-const CUSTOMERS = 1;
+// -- FALSE DATA GENERATION --
+const CUSTOMERS = 0;
 
 generateFalseData(CUSTOMERS);
 
 
+// -- COMMAND --
 process.stdin.setEncoding("utf8");
 process.stdin.on("readable", () => {
     let chunk = process.stdin.read() as string;
@@ -51,5 +57,7 @@ process.stdin.on("readable", () => {
             console.log("Command not found");
         }
     }
+
+    process.stdin.resume();
 });
 
