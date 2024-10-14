@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { handleWebhookEvent } from '../controllers/webhookController';
+import { handle } from '../controllers/webhookController';
 
 
 const router = Router();
-router.post('/', handleWebhookEvent);
+router.post('/', handle);
 
 
 export default router;
