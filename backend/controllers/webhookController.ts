@@ -13,7 +13,7 @@ import {
 } from 'repositories/customer';
 */
 
-export function handle(req: Request, res: Response) {
+export async function handle(req: Request, res: Response) {
     /*
     let event = constructEvent(req.body);
 
