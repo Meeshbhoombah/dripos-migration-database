@@ -8,4 +8,3 @@ router.post('/', migrateCustomerData);
 
 export default router;
 
-
