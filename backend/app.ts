@@ -7,16 +7,16 @@ dotenv.config();
 
 
 // -- DATABASE --
-console.log('⏳ CONNECTING TO MONGO DB DATABASE');
+console.log("⏳ CONNECTING TO MONGO DB DATABASE");
 
 import mongoose from 'mongoose';
 mongoose.connect(process.env.MONGO_URI as string)
     .then(() => {
-        console.log('✅ CONNECTED TO MONGO DB DATABASE:');
+        console.log("✅ CONNECTED TO MONGO DB DATABASE:");
         console.log(pc.magenta(process.env.MONGO_URI));
     })
     .catch((error) => { 
-        console.error('🛑 Error connecting to MongoDB:', error)
+        console.error("🛑 Error connecting to MongoDB:", error)
     });
 
 
@@ -37,7 +37,7 @@ app.use('/webhook', webhookRoutes);
 app.use('/api/migrate', migrationRoutes);
 app.use('/clean', cleanRoutes);
 
-console.log('⏳ STARTING SERVER')
+console.log("⏳ STARTING SERVER");
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ SERVER RUNNING ON PORT ${PORT}`));
 
@@ -58,11 +58,13 @@ process.stdin.on("readable", () => {
     let lines = chunk.split(os.EOL);
 
     let command = lines[0];
-    let commandParts = command.split("");
+    let commandParts = command.split(" ");
     let commandName = commandParts[0];
     let commandParams = commandParts.slice(1);
 
     switch (commandName) {
+        case '':
+
         default: {
             console.log("Command not found");
         }
