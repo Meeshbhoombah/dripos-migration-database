@@ -5,8 +5,9 @@ import { faker } from '@faker-js/faker';
 
 dotenv.config();
 
-
+console.log('⏳ CREATING STRIPE CLIENT');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {apiVersion: '2024-06-20'});
+console.log('✅ STRIPE CLIENT CREATED');
 
 
 faker.seed(420);
@@ -61,7 +62,6 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
 
         while (hasMore) {
             let response: any = await stripe.invoices.list(request);
-
             invoiceIds = response.data.map((invoice: any) => invoice.id);
 
             hasMore = response.has_more;

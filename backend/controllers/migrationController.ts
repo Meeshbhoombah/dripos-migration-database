@@ -36,6 +36,7 @@ export const migrateCustomerData = async (req: Request, res: Response) => {
     }
 }
 
+
 /*
 export const migrateInvoiceData = async (req: Request, res: Response) => {
 };

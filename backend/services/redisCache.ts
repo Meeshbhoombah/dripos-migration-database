@@ -1,10 +1,15 @@
+import pc from 'picocolors';
 import * as redis from 'redis';
 
+
+console.log('⏳ CREATING REDIS CLIENT');
 const client = redis.createClient();
 client.connect();
+console.log('✅ CREATED REDIS CLIENT');
+
 
 client.on('error', (err) => {
-    console.log('Redis Error: ', err);
+    console.error('Redis Error: ', err);
 });
 
 
