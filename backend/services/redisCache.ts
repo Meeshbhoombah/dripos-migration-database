@@ -23,7 +23,7 @@ export const setCache = (key: string, value: any) => {
 
 
 export const getCache = async (key: string): Promise<any> => {
-    return await client.get(key);
+    return await client.get(JSON.parse(key));
 };
 
 

@@ -11,7 +11,7 @@ export const migrateCustomerData = async (req: Request, res: Response) => {
         const cachedData = await getCache(stripeId);
 
         if (cachedData) {
-            return res.status(200).json(JSON.parse(cachedData));
+            return res.status(200).json(cachedData);
         }
 
         const payments = await fetchCustomerPayments(stripeId);
