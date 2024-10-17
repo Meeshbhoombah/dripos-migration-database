@@ -5,6 +5,7 @@ console.log(pc.blue(pc.bold("dripos-migration-database ----------")));
 import dotenv from 'dotenv';
 dotenv.config();
 
+
 // -- DATABASE --
 import { load } from './services/mongoDb';
 load();
