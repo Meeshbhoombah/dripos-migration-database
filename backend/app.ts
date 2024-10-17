@@ -5,43 +5,9 @@ console.log(pc.blue(pc.bold("dripos-migration-database ----------")));
 import dotenv from 'dotenv';
 dotenv.config();
 
-/*
-let config = {
-    stripe: {
-        secretKey: process.env.STRIPE_SECRET_KEY, 
-    },
-    mongodb: {
-        hostname: process.env.MONGODB_HOSTNAME,
-    },
-    server: {
-        port: process.env.PORT, 
-    }
-}
-
-export config;
-
-
-import { MongoClient } from 'mongodb';
-
-let mongodbUri = 'mongodb://' + config.mongodb.hostname + '27017' + '/dripos_migration';
-let mongodb = new MongoClient(mongodbUri);
-
-export mongodb;
-*/
-
-
 // -- DATABASE --
-console.log("⏳ CONNECTING TO MONGO DB DATABASE");
-
-import mongoose from 'mongoose';
-mongoose.connect(process.env.MONGO_URI as string)
-    .then(() => {
-        console.log("✅ CONNECTED TO MONGO DB DATABASE:");
-        console.log(pc.magenta(process.env.MONGO_URI));
-    })
-    .catch((error) => { 
-        console.error("🛑 Error connecting to MongoDB:", error)
-    });
+import { load } from './services/mongoDb';
+load();
 
 
 // -- SERVER --
@@ -52,6 +18,14 @@ app.use(express.json());
 
 import cors from 'cors';
 app.use(cors());
+
+/*
+import webhook from './routes/webhook';
+app.use('/webhook', webhook);
+
+import api from './routes/api';
+app.use('/api', api);
+*/
 
 import webhookRoutes from './routes/webhookRoutes';
 import migrationRoutes from './routes/migrationRoutes';
@@ -67,6 +41,10 @@ app.listen(PORT, () => console.log(`✅ SERVER RUNNING ON PORT ${PORT}`));
 
 
 // -- FALSE DATA GENERATION --
+/*
+import { generate } from './services/generate';
+generate();
+*/
 const CUSTOMERS = 0;
 
 import { generateFalseData } from './services/stripeService';
@@ -94,4 +72,3 @@ process.stdin.on("readable", () => {
 
     process.stdin.resume();
 });
-
