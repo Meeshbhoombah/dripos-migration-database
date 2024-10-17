@@ -52,7 +52,7 @@ export async function handle(req: Request, res: Response) {
         },
         case 'payment_intent.succeeded': {
 
-        }
+        },
         default: {
             console.log('Unlandled event type: ', event) 
         } 

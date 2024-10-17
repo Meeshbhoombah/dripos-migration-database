@@ -5,6 +5,23 @@ console.log(pc.blue(pc.bold("dripos-migration-database ----------")));
 import dotenv from 'dotenv';
 dotenv.config();
 
+/*
+let config = {
+    stripe: {
+        secretKey: process.env.STRIPE_SECRET_KEY, 
+    },
+    mongodb: {
+        hostname: process.env.MONGODB_HOSTNAME,
+    },
+    server: {
+        port: process.env.PORT, 
+    }
+}
+
+export config;
+
+*/
+
 
 // -- DATABASE --
 console.log("⏳ CONNECTING TO MONGO DB DATABASE");
@@ -63,8 +80,6 @@ process.stdin.on("readable", () => {
     let commandParams = commandParts.slice(1);
 
     switch (commandName) {
-        case '':
-
         default: {
             console.log("Command not found");
         }
