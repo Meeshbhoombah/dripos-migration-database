@@ -20,6 +20,13 @@ let config = {
 
 export config;
 
+
+import { MongoClient } from 'mongodb';
+
+let mongodbUri = 'mongodb://' + config.mongodb.hostname + '27017' + '/dripos_migration';
+let mongodb = new MongoClient(mongodbUri);
+
+export mongodb;
 */
 
 
