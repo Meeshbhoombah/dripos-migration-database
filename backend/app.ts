@@ -35,7 +35,7 @@ app.listen(PORT, () => console.log(`✅ SERVER RUNNING ON PORT ${PORT}`));
 
 
 // -- FALSE DATA GENERATION --
-const CUSTOMERS = 1;
+const CUSTOMERS = 5;
 
 import { generate } from './services/generate';
 generate(CUSTOMERS);

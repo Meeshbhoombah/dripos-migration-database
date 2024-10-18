@@ -6,8 +6,13 @@ import { faker } from '@faker-js/faker';
 import { 
     createCustomer, 
     createPaymentMethod, 
-    // createPayment 
+    createPayment 
 } from './stripe';
+
+
+dotenv.config();
+
+faker.seed(420);
 
 
 async function generateFalseCustomer() {
@@ -49,8 +54,26 @@ async function generateFalsePaymentMethod(stripeCustomerId: string) {
 }
 
 
-async function generateFalsePayment(stripeCustomerId: string, stripeCardId: string) {
+const TEST_COFFEE_PRICES = [
+    250,
+    280,
+    300, 
+];
 
+async function generateFalsePayment(stripeCustomerId: string, stripeCardId: string) {
+    let params: Stripe.PaymentIntentCreateParams = {
+        customer: stripeCustomerId,
+        amount: TEST_COFFEE_PRICES[Math.floor(Math.random() * TEST_COFFEE_PRICES.length)],
+        currency: 'usd',
+        payment_method: stripeCardId,
+        confirm: true,
+        return_url: process.env.STRIPE_RETURN_URL,
+        automatic_payment_methods: {
+            enabled: true,
+        }, 
+    }
+
+    let payment = await createPayment(params);
 }
 
 
