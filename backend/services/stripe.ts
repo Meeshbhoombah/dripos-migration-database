@@ -79,9 +79,11 @@ export const fetchCustomerInvoices = async (stripeId: string) => {
 };
 
 
-export async function createCustomer(params: Stripe.CustomerCreateParams) {
+export async function createCustomer(
+    params: Stripe.CustomerCreateParams
+) {
     try {
-        return stripe.customers.create(params);    
+        return stripe.customers.create(params);
     } catch (error) {
         console.error("Failed to create Stripe customer: ", error);
         console.error("Params: ", params);
@@ -90,15 +92,20 @@ export async function createCustomer(params: Stripe.CustomerCreateParams) {
 }
 
 
-export async function createSource(params: Stripe.SourceCreateParams) {
+export async function createPaymentMethod(
+    customerId: string, 
+    params: Stripe.CustomerCreateSourceParams
+) {
     try {
-        return stripe.customers.createSource(params);
+        return stripe.customers.createSource(customerId, params);
     } catch (error) {
         console.error("Failed to create Stripe customer source: ", error);
         console.error("Params: ", params);
         throw error;
     }
 }
+
+
 
 interface customerCreateParams extends Stripe.CustomerCreateParams {}
 
@@ -151,6 +158,8 @@ const createFalsePayment = async (stripeId: string, cardId: string) => {
             enabled: true,
         },
     });
+
+    console.log(typeof paymentIntent);
 }
 
 

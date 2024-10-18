@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker';
 
 import { 
     createCustomer, 
-    // createPaymentMethod, 
+    createPaymentMethod, 
     // createPayment 
 } from './stripe';
 
@@ -20,7 +20,7 @@ async function generateFalseCustomer() {
     let phone = faker.phone.number();
 
 
-    let params = {
+    let params: Stripe.CustomerCreateParams = {
         name,
         email,
         phone 
@@ -31,19 +31,43 @@ async function generateFalseCustomer() {
 }
 
 
-export async function generate(numberOfCustomers: number) {
-    for (let i = 0; i < numberOfCustomers; i++) {
-        let customerId = await generateFalseCustomer();
-        console.log(customerId);
-        /*
-        let cardId = await generateFalsePaymentMethod(customerId);
-        
-        let numberOfFalsePayments = randomNumberBetween(1, 3);
-        for (let j = 0; j < numberOfFalsePayments; j++) {
-            await generateFalsePayment();
-        }
-        */
-    }
+const TEST_CARD_TOKENS = [
+    "tok_visa",
+    "tok_visa_debit",
+    "tok_mastercard",
+    "tok_mastercard_debit",
+    "tok_amex"
+];
+
+async function generateFalsePaymentMethod(stripeCustomerId: string) {
+    let params: Stripe.CustomerCreateSourceParams = {
+        source: TEST_CARD_TOKENS[Math.floor(Math.random() * TEST_CARD_TOKENS.length)]
+    } 
+
+    let card = await createPaymentMethod(stripeCustomerId, params);
+    return card.id;
 }
 
+
+async function generateFalsePayment(stripeCustomerId: string, stripeCardId: string) {
+
+}
+
+
+function randomNumberBetween(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export async function generate(numberOfCustomers: number) {
+    for (let i = 0; i < numberOfCustomers; i++) {
+        let stripeCustomerId = await generateFalseCustomer();
+        let stripeCardId = await generateFalsePaymentMethod(stripeCustomerId);
+       
+        let numberOfFalsePayments = randomNumberBetween(1, 3);
+
+        for (let j = 0; j < numberOfFalsePayments; j++) {
+            await generateFalsePayment(stripeCustomerId, stripeCardId);
+        }
+    }
+}
 
