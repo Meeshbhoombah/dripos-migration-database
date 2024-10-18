@@ -16,7 +16,9 @@ connect();
 import express from 'express';
 const app = express();
 
+// Uses Express 4, for parsing Stripe data hitting `/webhook`
 app.use(express.raw({ type: 'application/json' }));
+// app.use(express.json());
 
 import cors from 'cors';
 app.use(cors());
@@ -37,10 +39,8 @@ app.listen(PORT, () => console.log(`✅ SERVER RUNNING ON PORT ${PORT}`));
 
 
 // FALSE DATA GENERATION
-const CUSTOMERS = 1;
-
 import { generate } from './services/generate';
-generate(CUSTOMERS);
+generate(parseInt(process.env.CUSTOMERS!));
 
 
 // COMMAND
