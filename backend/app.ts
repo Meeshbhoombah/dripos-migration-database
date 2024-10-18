@@ -12,15 +12,38 @@ import { connect } from './services/redis';
 connect();
 
 
+// -- SERVER --
+import express from 'express';
+const app = express();
+
+app.use(express.json());
+
+import cors from 'cors';
+app.use(cors());
+
+
+import webhook from './routes/webhook';
+app.use('/webhook', webhook);
+
+
+import dotenv from 'dotenv';
+dotenv.config();
+
+console.log("⏳ STARTING SERVER");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`✅ SERVER RUNNING ON PORT ${PORT}`));
+
+
 // -- FALSE DATA GENERATION --
 /*
 import { generate } from './services/generate';
 generate();
-*/
+
 const CUSTOMERS = 0;
 
 import { generateFalseData } from './services/stripeService';
 generateFalseData(CUSTOMERS);
+*/
 
 
 // -- COMMAND --
@@ -44,28 +67,4 @@ process.stdin.on("readable", () => {
 
     process.stdin.resume();
 });
-
-
-// -- SERVER --
-import express from 'express';
-const app = express();
-
-app.use(express.json());
-
-import cors from 'cors';
-app.use(cors());
-
-
-import webhook from './routes/webhook';
-app.use('/webhook', webhook);
-
-
-import dotenv from 'dotenv';
-dotenv.config();
-
-console.log("⏳ STARTING SERVER");
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ SERVER RUNNING ON PORT ${PORT}`));
-
-
 
