@@ -16,7 +16,7 @@ connect();
 import express from 'express';
 const app = express();
 
-app.use(express.json());
+app.use(express.raw({ type: 'application/json' }));
 
 import cors from 'cors';
 app.use(cors());
@@ -37,7 +37,7 @@ app.listen(PORT, () => console.log(`✅ SERVER RUNNING ON PORT ${PORT}`));
 
 
 // FALSE DATA GENERATION
-const CUSTOMERS = 5;
+const CUSTOMERS = 1;
 
 import { generate } from './services/generate';
 generate(CUSTOMERS);

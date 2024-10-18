@@ -8,6 +8,8 @@ console.log('⏳ CREATING STRIPE CLIENT');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {apiVersion: '2024-06-20'});
 console.log('✅ STRIPE CLIENT CREATED');
 
+export { stripe };
+
 
 interface customerPaymentsParams extends Stripe.PaginationParams, Stripe.PaymentIntentListParams {}
 
