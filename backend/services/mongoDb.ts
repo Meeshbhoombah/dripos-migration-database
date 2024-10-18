@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-
 import { MongoClient } from 'mongodb';
 
 import { Customer } from '../models/customer';

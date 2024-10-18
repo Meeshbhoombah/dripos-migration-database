@@ -2,17 +2,17 @@ import pc from 'picocolors';
 console.log(pc.blue(pc.bold("dripos-migration-database ----------")));
 
 
-// -- DATABASE --
+// DATABASE
 import { load } from './services/mongoDb';
 load();
 
 
-// -- CACHE --
+// CACHE
 import { connect } from './services/redis';
 connect();
 
 
-// -- SERVER --
+// SERVER
 import express from 'express';
 const app = express();
 
@@ -22,10 +22,12 @@ import cors from 'cors';
 app.use(cors());
 
 
+// routes
 import webhook from './routes/webhook';
 app.use('/webhook', webhook);
 
 
+// serve
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -34,14 +36,14 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ SERVER RUNNING ON PORT ${PORT}`));
 
 
-// -- FALSE DATA GENERATION --
+// FALSE DATA GENERATION
 const CUSTOMERS = 5;
 
 import { generate } from './services/generate';
 generate(CUSTOMERS);
 
 
-// -- COMMAND --
+// COMMAND
 import os from 'os';
 
 process.stdin.setEncoding("utf8");
