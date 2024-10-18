@@ -35,13 +35,13 @@ app.listen(PORT, () => console.log(`✅ SERVER RUNNING ON PORT ${PORT}`));
 
 
 // -- FALSE DATA GENERATION --
-/*
+const CUSTOMERS = 1;
+
 import { generate } from './services/generate';
-generate();
+generate(CUSTOMERS);
 
-const CUSTOMERS = 0;
-
-import { generateFalseData } from './services/stripeService';
+/*
+import { generateFalseData } from './services/stripe';
 generateFalseData(CUSTOMERS);
 */
 
