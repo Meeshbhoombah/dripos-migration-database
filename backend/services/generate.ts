@@ -11,7 +11,6 @@ import {
 
 
 dotenv.config();
-
 faker.seed(420);
 
 
@@ -36,6 +35,11 @@ async function generateFalseCustomer() {
 }
 
 
+function randomValueFrom(arr: []) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+
 const TEST_CARD_TOKENS = [
     "tok_visa",
     "tok_visa_debit",
@@ -46,7 +50,7 @@ const TEST_CARD_TOKENS = [
 
 async function generateFalsePaymentMethod(stripeCustomerId: string) {
     let params: Stripe.CustomerCreateSourceParams = {
-        source: TEST_CARD_TOKENS[Math.floor(Math.random() * TEST_CARD_TOKENS.length)]
+        source: randomValueFrom(TEST_CARD_TOKENS),
     } 
 
     let card = await createPaymentMethod(stripeCustomerId, params);
@@ -63,7 +67,7 @@ const TEST_COFFEE_PRICES = [
 async function generateFalsePayment(stripeCustomerId: string, stripeCardId: string) {
     let params: Stripe.PaymentIntentCreateParams = {
         customer: stripeCustomerId,
-        amount: TEST_COFFEE_PRICES[Math.floor(Math.random() * TEST_COFFEE_PRICES.length)],
+        amount: randomValueFrom(TEST_COFFEE_PRICES),
         currency: 'usd',
         payment_method: stripeCardId,
         confirm: true,

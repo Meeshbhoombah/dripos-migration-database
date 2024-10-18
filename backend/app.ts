@@ -40,11 +40,6 @@ const CUSTOMERS = 5;
 import { generate } from './services/generate';
 generate(CUSTOMERS);
 
-/*
-import { generateFalseData } from './services/stripe';
-generateFalseData(CUSTOMERS);
-*/
-
 
 // -- COMMAND --
 import os from 'os';
