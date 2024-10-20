@@ -1,4 +1,4 @@
-import { Status } from './migration';
+import { Status, Insertion } from './migration';
 import { db } from '../services/mongoDb';
 
 
@@ -7,10 +7,20 @@ const collection = db.collection("customers");
 
 export async function createCustomer(customer: object) {
     try {
-        await collection.insertOne(customer);
-        return Status.Succeeded;
+        let document = await collection.insertOne(customer);
+    
+        let i: Insertion = {
+            status: Status.Succeeded,
+            documentId: document.insertedId
+        }
+
+        return i;
     } catch (e) {
-        return Status.Failed;
+        let i: Insertion = {
+            status: Status.Failed
+        }
+
+        return i;
     }
 }
 

@@ -2,9 +2,12 @@ import pc from 'picocolors';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
-import { stripe } from '../services/stripe';
 
-// import { createMigration } from 'repositories/migration';
+import { stripe } from '../services/stripe';
+import { 
+    Status, 
+    createMigration 
+} from '../repositories/migration';
 import { 
     createCustomer, 
     /*
@@ -18,52 +21,49 @@ import {
     */
 } from '../repositories/customer';
 
+
 export async function handle(req: Request, res: Response) {
     let event = req.body.type;
 
     switch (event) {
-        // Because `dripos-migration-database` stores data permanetly, we do 
-        // not need to respond to deletion events other than to demarcate that
-        // said event deletes some data (e.g: source deletion events)
         case 'customer.created': {
-            let newCustomer = req.body.data.object;
+            let cus = req.body.data.object;
 
-            let status = await createCustomer(newCustomer);
+            let insertion = await createCustomer(cus);
+            await createMigration(req, insertion);
 
-            console.log(req.body);
+            setCache(cus.id, insertion.documentId);
 
-            /*
-            await createMigration(status, event);
-
-            setCache(newCustomer.id, customer);
-            */
+            break;
         }
         case 'customer.updated': {
             /*
             // Check and get customer if its id is in our Redis cache, if not 
             // use the event's data
-            let customer = await getCache(data.id);
-            if (!customer) {
-                customer = event.data.object;
+            let cus = req.body.data.object;
+            let cusDocumentId = await getCache(cuss.id);
+
+            let m: Migration;
+            if (cusDocumentId) {
+                m = await updateCustomer(cusDocumentId, cus);
             }
 
-            // Migrate the updated customer data to our Mongo DB database 
-            let status = await updateCustomer(customer);
+            if (!customerId) {
+                m = await updateCustomer(cus);
+            }
 
-            // Log migration event to our Mongo DB database, whether a success 
-            // or failure
-            await createMigration(status, event);
+            await createMigration(m);
 
-            setCache(customer.id, customer);
+            setCache(cus, m.documentId);
 
             break;
             */
         }
         case 'payment_method.attached': {
-        
+            break; 
         }
         case 'payment_intent.succeeded': {
-
+            break;
         }
         default: {
             console.log('Unlandled event type: ', event) 
@@ -72,5 +72,5 @@ export async function handle(req: Request, res: Response) {
         
     // Return a 200 response to acknowledge receipt of the event
     res.sendStatus(200);
-}
+};
 
