@@ -16,7 +16,8 @@ export async function load() {
     await mongodb.connect()
     console.log("✅ CONNECTED TO MONGODB");
 
-    db.createCollection("customers");
+    db.createCollection('customers');
+    db.createCollection('migrations');
 };
 
 

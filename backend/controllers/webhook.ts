@@ -26,10 +26,12 @@ export async function handle(req: Request, res: Response) {
         // not need to respond to deletion events other than to demarcate that
         // said event deletes some data (e.g: source deletion events)
         case 'customer.created': {
-            console.log('fired');
             let newCustomer = req.body.data.object;
 
             let status = await createCustomer(newCustomer);
+
+            console.log(req.body);
+
             /*
             await createMigration(status, event);
 
