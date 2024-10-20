@@ -5,9 +5,9 @@ import Stripe from 'stripe';
 import { stripe } from '../services/stripe';
 
 // import { createMigration } from 'repositories/migration';
-/*
 import { 
     createCustomer, 
+    /*
     updateCustomer,
 
     addSource,
@@ -15,8 +15,8 @@ import {
     deleteSource,
 
     addPayment
-} from 'repositories/customer';
-*/
+    */
+} from '../repositories/customer';
 
 export async function handle(req: Request, res: Response) {
     let event = req.body.type;
@@ -26,10 +26,11 @@ export async function handle(req: Request, res: Response) {
         // not need to respond to deletion events other than to demarcate that
         // said event deletes some data (e.g: source deletion events)
         case 'customer.created': {
-            /*
+            console.log('fired');
             let newCustomer = req.body.data.object;
 
             let status = await createCustomer(newCustomer);
+            /*
             await createMigration(status, event);
 
             setCache(newCustomer.id, customer);

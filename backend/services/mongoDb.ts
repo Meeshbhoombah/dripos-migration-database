@@ -1,8 +1,6 @@
 import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
 
-import { Customer } from '../models/customer';
-
 
 dotenv.config();
 
@@ -18,7 +16,7 @@ export async function load() {
     await mongodb.connect()
     console.log("✅ CONNECTED TO MONGODB");
 
-    db.createCollection<Customer>("customers");
+    db.createCollection("customers");
 };
 
 
