@@ -17,8 +17,8 @@ import express from 'express';
 const app = express();
 
 // Uses Express 4, for parsing Stripe data hitting `/webhook`
-app.use(express.raw({ type: 'application/json' }));
-// app.use(express.json());
+// app.use(express.raw({ type: 'application/json' }));
+app.use(express.json());
 
 import cors from 'cors';
 app.use(cors());
@@ -48,6 +48,7 @@ import os from 'os';
 
 process.stdin.setEncoding("utf8");
 process.stdin.on("readable", () => {
+
     let chunk = process.stdin.read() as string;
     let lines = chunk.split(os.EOL);
 
@@ -63,5 +64,6 @@ process.stdin.on("readable", () => {
     }
 
     process.stdin.resume();
+
 });
 

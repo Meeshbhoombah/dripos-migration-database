@@ -19,25 +19,21 @@ import {
 */
 
 export async function handle(req: Request, res: Response) {
-    let event: Stripe.Event = null!;
-    
-    try {
-        event = stripe.webhooks.constructEvent(
-            req.body, 
-            req.headers['stripe-signature']!,
-            process.env.STRIPE_WEBHOOK_SECRET!
-        );
-    } catch (error) {
-        console.error("Failed to construct Stripe event: ", error);
-        console.error("Request: ", req);
-    }
+    let event = req.body.type;
 
-    switch (event.type) {
+    switch (event) {
         // Because `dripos-migration-database` stores data permanetly, we do 
         // not need to respond to deletion events other than to demarcate that
         // said event deletes some data (e.g: source deletion events)
         case 'customer.created': {
+            /*
+            let newCustomer = req.body.data.object;
 
+            let status = await createCustomer(newCustomer);
+            await createMigration(status, event);
+
+            setCache(newCustomer.id, customer);
+            */
         }
         case 'customer.updated': {
             /*
@@ -59,9 +55,6 @@ export async function handle(req: Request, res: Response) {
 
             break;
             */
-        }
-        case 'customer.deleted': {
-        
         }
         case 'payment_method.attached': {
         
