@@ -13,33 +13,35 @@ export enum Status {
 }
 
 
-export interface Insertion {
-    status: Status,
-    documentId?: ObjectId
+export interface DatabaseUpdate {
+    status?: Status,
+    documentId?: string
 }
 
 
-export async function createMigration(req: Request, i: Insertion) {
+export async function createMigration(req: Request, u: DatabaseUpdate) {
+
     let migration: object = {};
 
-    if (i.documentId) {
+    if (u.documentId) {
         migration = {
             name: req.body.type,
-            status: i.status,
+            status: u.status,
             created: req.body.created,
-            impactedDocument: i.documentId.toHexString()
+            impactedDocument: u.documentId.toString()
         }
     } 
 
-    if (!i.documentId) {
+    if (!u.documentId) {
         migration = {
             name: req.body.type,
-            status: i.status,
+            status: u.status,
             created: req.body.created 
         }    
     }
 
     await collection.insertOne(migration);
     return;
+
 };
 

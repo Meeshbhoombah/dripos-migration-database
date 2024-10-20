@@ -27,7 +27,8 @@ export function oset(key: string, value: any) {
 };
 
 export async function oget(key: string) {
-    let obj = await client.get(JSON.parse(key));
+    let obj = await client.get(key);
+    obj = JSON.parse(obj!);
     return obj;
 };
 
