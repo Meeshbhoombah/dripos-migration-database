@@ -49,7 +49,7 @@ export async function updateCustomerByDocumentId(cusDocumentId: string, update: 
 
         return u;
     } catch (e) {
-         let u: DatabaseUpdate = {
+        let u: DatabaseUpdate = {
             status: Status.Failed, 
         }
         
